@@ -1,0 +1,18 @@
+# Smart House Configuration File
+
+devices:
+  - name: Living Room Lights
+    type: LIGHTING
+    power: 100.0
+
+energies:
+  - name: Solar Panels
+    type: SOLAR
+    output: 5000.0
+
+
+batteries:
+  - name: Main Battery
+    capacity: 10000.0
+    maxChargeRate: 2000.0
+    maxDischargeRate: 2000.0
