@@ -1,0 +1,25 @@
+# Smart House Configuration File
+
+devices:
+  - name: Living Room Light
+    type: LIGHTING
+    power: 100.0
+  
+  - name: Fridge
+    type: APPLIANCE
+    power: 600.0
+
+energies:
+  - name: Solar Panels
+    type: SOLAR
+    output: 2000.0
+  
+  - name: Grid Power
+    type: GRID
+    output: 7000.0
+
+batteries:
+  - name: Main Battery
+    capacity: 10000.0
+    maxChargeRate: 800.0
+    maxDischargeRate: 900.0
