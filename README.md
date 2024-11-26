@@ -9,5 +9,5 @@ Team Video: [Screencast Link]()
   - [Screencast Link](https://drive.google.com/file/d/115wXQcWGFZCYy4QUzkEqCQ98IHxoWZtV/view?usp=sharing)
 - Linxin Zhang, 7221539, 
   - [Screencast Link]()
-- Anjali Bodke, 7222106, 
-  - [Screencast Link]()
+- Anjali Bodke, 7222106, I worked on Configuration of all the components and Added two helper classes LoggerHelper and MenuHelper.
+  - [Screencast Link](https://drive.google.com/file/d/1X4vLG1xCAWIMavT_QbWIu3akPxUHn4kT/view?usp=sharing)
