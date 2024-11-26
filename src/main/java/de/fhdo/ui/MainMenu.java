@@ -55,8 +55,10 @@ public class MainMenu extends Menu {
     }
 
     private void exit() {
-        System.out.println("Shutting down Smart House Energy Management System...");
+        System.out.println("\nShutting down Smart House Energy Management System...");
         energyManager.shutdown();
         isRunning = false;
+
+        System.out.println("\nSmart House Energy Management System shut down.");
     }
 }
