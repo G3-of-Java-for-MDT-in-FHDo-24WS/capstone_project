@@ -1,6 +1,7 @@
 # Capstone Project
 
 ## Role Distribution and Screencast Link
+Presentation Slides: [Slides Link](https://drive.google.com/file/d/1sVd4kBAmQapmaCCGFhrBsdBB6q_75MVS/view?usp=sharing)
 Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeUHkt3IKjpVk4KmDT/view?usp=sharing)
 
 - Yanal Al Halabi, 7221683, I mainly worked on creating the smart objects model and the services files, which are called manager files for the devices, energy and logging.
@@ -11,3 +12,32 @@ Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeU
   - [Screencast Link](https://drive.google.com/file/d/16kwxJG3ZkdIB2eBgUOBLmaOFNGNnF-1C/view?usp=sharing)
 - Anjali Bodke, 7222106, I worked on Configuration of all the components and Added two helper classes LoggerHelper and MenuHelper.
   - [Screencast Link](https://drive.google.com/file/d/1X4vLG1xCAWIMavT_QbWIu3akPxUHn4kT/view?usp=sharing)
+
+
+## Functional Requirements
+- Application Initialization
+  - The application can initialize the system by loading configurations (e.g., devices, batteries, and energy sources)
+- Device Management
+  - Users can add, remove, and list devices.
+- Battery Management
+  - Users can list all batteries.
+  - Users can start and stop charging batteries.
+  - Users can start and stop powering devices using battery.
+- Energy Source Management
+  - Users can add, remove, and list energy sources.
+  - Users can toggle the state (active/inactive) of an energy source.
+- System Monitoring
+  - The system can monitor total power consumption and battery charge periodically.
+  - The system can log warnings when power consumption exceeds available battery charge.
+- Logging
+  - The system can log events related to devices, batteries, and energy sources (e.g., addition, removal, state changes).
+  - Logs can be categorized by type (e.g., DEVICE, BATTERY, ENERGY, SYSTEM).
+  - Users can search logs by name or date.
+  - Users can delete and archive logs.
+- User Interface
+  - The system can provide interactive menus for managing Devices, Batteries, Energy sources, Logs, System configuration, Overall system status
+  - Each menu can validate user inputs and provide feedback.
+- Configuration Loading
+  - Users can load a new configuration file. 
+  - The configuration file can define devices, batteries, and energy sources with attributes like name, type, and capacity.
+
