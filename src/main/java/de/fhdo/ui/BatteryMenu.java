@@ -149,8 +149,9 @@ public class BatteryMenu extends Menu {
         int choice = getValidChoice(0, devices.size());
         if (choice == 0) return;
         String deviceId = devices.get(choice - 1).getId();
+        String batteryId = energyManager.getAllBatteries().get(0).getId();
 
-        energyManager.stopPowerDevice(deviceId);
+        energyManager.stopPowerDevice(deviceId, batteryId);
         System.out.println("Battery power supply stopped successfully!");
     }
 }

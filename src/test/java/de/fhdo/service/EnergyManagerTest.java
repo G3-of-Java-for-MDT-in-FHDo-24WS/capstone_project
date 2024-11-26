@@ -159,8 +159,8 @@ public class EnergyManagerTest {
         energyManager.addBattery(testBattery);
 
         energyManager.powerDevice(testDevice.getId(), testBattery.getId());
-        energyManager.stopPowerDevice(testDevice.getId());
-        
+        energyManager.stopPowerDevice(testDevice.getId(), testBattery.getId());
+
         assertFalse(deviceManager.getDevicesByState(true).contains(testDevice));
         assertFalse(energyManager.getBatteriesByState(true).contains(testBattery));
     }

@@ -228,14 +228,15 @@ public class EnergyManager {
         }
     }
 
-    public void stopPowerDevice(String deviceId) {
+    public void stopPowerDevice(String deviceId, String batteryId) {
         Device device = deviceManager.getDevice(deviceId);
+        Battery battery = batteries.get(batteryId);
         if (device == null) {
             throw new IllegalArgumentException("Device not found: " + deviceId);
         }
 
         device.setActive(false);
-        LoggerHelper.logDevicePowerEvent(logManager, "Powered off", device.getName(), null);
+        LoggerHelper.logDevicePowerEvent(logManager, "Powered off", device.getName(), battery.getName());
 
         CompletableFuture<Void> deviceTask = devicePowerTasks.remove(deviceId);
         if (deviceTask != null) {
