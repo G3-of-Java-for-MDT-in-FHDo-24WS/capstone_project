@@ -1,7 +1,7 @@
 # Capstone Project
 
 ## Role Distribution and Screencast Link
-Presentation Slides: [Slides Link](https://drive.google.com/file/d/1sVd4kBAmQapmaCCGFhrBsdBB6q_75MVS/view?usp=sharing)<br>
+Presentation Slides: [Slides Link](https://drive.google.com/file/d/1bNVuP7qbFhE3K6Wn7gKcPFdt5QmvKcBc/view?usp=sharing)<br>
 Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeUHkt3IKjpVk4KmDT/view?usp=sharing)<br>
 Demo Video: [Video Link](https://drive.google.com/file/d/1M0F4bJZ-5qFpDAswvB9_aBaH4zMsExtW/view?usp=sharing)<br>
 
