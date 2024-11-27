@@ -24,7 +24,7 @@ public class Energy {
                 ID: %s
                 Name: %s
                 Type: %s
-                Output: %.2f W
+                Output: %.2f units
                 Status: %s
                 
                 """, id, name, type, output, isActive ? "Active" : "Inactive");

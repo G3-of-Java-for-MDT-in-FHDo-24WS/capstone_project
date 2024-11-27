@@ -29,7 +29,7 @@ public class Device {
                 ID: %s
                 Name: %s
                 Type: %s
-                Power: %.2f W
+                Power: %.2f units
                 Status: %s
                 
                 """, id, name, type, power, isActive ? "Active" : "Inactive");

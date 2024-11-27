@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Battery {
     private String id;
     private String name;
-    private double capacity = 100.0; // Max capacity is 100.0
-    private double currentCharge = 0.0;
+    private double capacity;
+    private double currentCharge;
     private double maxChargeRate;
     private double maxDischargeRate;
     private boolean isCharging;
@@ -20,13 +20,13 @@ public class Battery {
         return String.format("""
                 ID: %s
                 Name: %s
-                Capacity: %.2f
-                Current Charge: %.2f
-                Max Charge Rate: %.2f
-                Max Discharge Rate: %.2f
+                Capacity: %.2f%% (%.2f units)
+                Current Charge: %.2f%% (%.2f units)
+                Max Charge Rate: %.2f%% (%.2f units)
+                Max Discharge Rate: %.2f%% (%.2f units)
                 Status: %s
                 
-                """, id, name, capacity, currentCharge, maxChargeRate, maxDischargeRate, isCharging ? "Charging" : "Not Charging");
+                """, id, name, currentCharge / capacity * 100, currentCharge, currentCharge / capacity * 100, currentCharge, maxChargeRate / capacity * 100, maxChargeRate, maxDischargeRate / capacity * 100, maxDischargeRate, isCharging ? "Charging" : "Discharging");
     }
 
     @Override

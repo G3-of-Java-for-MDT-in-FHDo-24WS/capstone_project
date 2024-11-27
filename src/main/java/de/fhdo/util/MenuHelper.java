@@ -45,8 +45,6 @@ public class MenuHelper {
     }
 
     public static void listDevices(List<Device> devices) {
-        
-
         if (devices.isEmpty()) {
             System.out.println("No devices found.");
             return;

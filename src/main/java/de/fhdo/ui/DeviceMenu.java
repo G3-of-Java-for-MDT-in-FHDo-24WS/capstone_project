@@ -88,22 +88,22 @@ public class DeviceMenu extends Menu {
         System.out.println("Device removed successfully!");
     }
 
-    private void toggleDevice() {
-        System.out.println("=== Toggle Device State ===");
-
-        List<Device> devices = deviceManager.getAllDevices();
-        listDevices(devices);
-
-        if (devices.isEmpty()) {
-            return;
-        }
-
-        System.out.println("Please select the device number to toggle (1-" + devices.size() + ", 0 to return to the previous menu): ");
-        int choice = getValidChoice(0, devices.size());
-        if (choice == 0) return;
-        String deviceId = devices.get(choice - 1).getId();
-
-        deviceManager.toggleDevice(deviceId);
-        System.out.println("Device state toggled successfully!");
-    }
+//    private void toggleDevice() {
+//        System.out.println("=== Toggle Device State ===");
+//
+//        List<Device> devices = deviceManager.getAllDevices();
+//        listDevices(devices);
+//
+//        if (devices.isEmpty()) {
+//            return;
+//        }
+//
+//        System.out.println("Please select the device number to toggle (1-" + devices.size() + ", 0 to return to the previous menu): ");
+//        int choice = getValidChoice(0, devices.size());
+//        if (choice == 0) return;
+//        String deviceId = devices.get(choice - 1).getId();
+//
+//        deviceManager.toggleDevice(deviceId);
+//        System.out.println("Device state toggled successfully!");
+//    }
 }

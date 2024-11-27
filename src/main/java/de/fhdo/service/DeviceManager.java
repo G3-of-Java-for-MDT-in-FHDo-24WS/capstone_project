@@ -68,7 +68,7 @@ public class DeviceManager {
                 .toList();
     }
 
-    public double getTotalConsumption() {
+    public double getCurrentTotalConsumption() {
         return devices.values().stream()
                 .filter(Device::isActive)
                 .mapToDouble(Device::getPower)

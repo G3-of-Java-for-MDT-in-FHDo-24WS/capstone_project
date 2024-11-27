@@ -101,7 +101,7 @@ public class DeviceManagerTest {
     }
 
     @Test
-    void testGetTotalConsumption() {
+    void testGetCurrentTotalConsumption() {
         Device device1 = Device.builder()
                 .id("id-1")
                 .name("Device 1")
@@ -121,7 +121,7 @@ public class DeviceManagerTest {
         deviceManager.addDevice(device1);
         deviceManager.addDevice(device2);
 
-        assertEquals(300.0, deviceManager.getTotalConsumption());
+        assertEquals(300.0, deviceManager.getCurrentTotalConsumption());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class DeviceManagerTest {
                 .build();
 
         deviceManager.addDevice(inactiveDevice);
-        assertEquals(0.0, deviceManager.getTotalConsumption());
+        assertEquals(0.0, deviceManager.getCurrentTotalConsumption());
     }
 
     @Test

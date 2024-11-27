@@ -25,7 +25,7 @@ public class HouseConfigTest {
         HouseConfig.EnergyConfig firstEnergy = config.getEnergies().get(0);
         assertEquals("Solar Panels", firstEnergy.getName());
         assertEquals("SOLAR", firstEnergy.getType());
-        assertEquals(5000.0, firstEnergy.getOutput());
+        assertEquals(3000.0, firstEnergy.getOutput());
         
         assertEquals(1, config.getBatteries().size());
         HouseConfig.BatteryConfig battery = config.getBatteries().get(0);

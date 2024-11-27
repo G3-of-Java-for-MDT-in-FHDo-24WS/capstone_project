@@ -18,11 +18,16 @@ public class SystemStatusMenu extends Menu {
     public void show() {
         System.out.println("=== System Status ===");
 
-        double totalConsumption = deviceManager.getTotalConsumption();
-        double totalBatteryCharge = getTotalBatteryCharge();
+        double currentTotalConsumption = deviceManager.getCurrentTotalConsumption();
+        double currentTotalBatteryCharge = energyManager.getCurrentTotalBatteryCharge();
+        double totalBatteryCapacity = energyManager.getCurrentTotalBatteryCapacity();
 
-        System.out.printf("Total Power Consumption: %.2f\n", totalConsumption);
-        System.out.printf("Total Battery Charge: %.2f\n", totalBatteryCharge);
+        System.out.printf("Current Power Consumption: %.2f%% (.2f units)\n", currentTotalConsumption / totalBatteryCapacity * 100, currentTotalConsumption);
+        System.out.printf("Current Battery Charge: %.2f%% (.2f units)\n", currentTotalBatteryCharge / totalBatteryCapacity * 100, currentTotalBatteryCharge);
+
+        List<Battery> activeBatteries = energyManager.getBatteriesByState(true);
+        System.out.println("\nActive Batteries:");
+        listBatteries(activeBatteries);
 
         List<Device> activeDevices = deviceManager.getDevicesByState(true);
         System.out.println("\nActive Devices:");
@@ -31,9 +36,16 @@ public class SystemStatusMenu extends Menu {
         waitForEnter();
     }
 
-    private double getTotalBatteryCharge() {
-        return energyManager.getAllBatteries().stream()
-                .mapToDouble(Battery::getCurrentCharge)
-                .sum();
+    private void listBatteries(List<Battery> batteries) {
+        if (batteries.isEmpty()) {
+            System.out.println("No batteries found.");
+            return;
+        }
+
+        for (int i = 0; i < batteries.size(); i++) {
+            Battery battery = batteries.get(i);
+            System.out.println("Battery #" + (i + 1));
+            System.out.print(battery);
+        }
     }
 }

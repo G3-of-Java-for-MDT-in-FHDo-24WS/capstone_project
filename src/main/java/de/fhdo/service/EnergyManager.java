@@ -38,6 +38,18 @@ public class EnergyManager {
         return instance;
     }
 
+    public double getCurrentTotalBatteryCharge() {
+        return getAllBatteries().stream()
+                .mapToDouble(Battery::getCurrentCharge)
+                .sum();
+    }
+
+    public double getCurrentTotalBatteryCapacity() {
+        return getAllBatteries().stream()
+                .mapToDouble(Battery::getCapacity)
+                .sum();
+    }
+
     public void addEnergy(Energy energy) {
         energies.put(energy.getId(), energy);
         LoggerHelper.logEnergyEvent(logManager, "Added new energy", energy.getName());
@@ -180,7 +192,7 @@ public class EnergyManager {
                 synchronized (battery) {
                     double availablePower = energy.getOutput();
                     double batteryDeficit = battery.getCapacity() - battery.getCurrentCharge();
-                    double deviceConsumption = deviceManager.getTotalConsumption();
+                    double deviceConsumption = deviceManager.getCurrentTotalConsumption();
 
                     double chargePower = Math.min(battery.getMaxChargeRate(), availablePower);
 

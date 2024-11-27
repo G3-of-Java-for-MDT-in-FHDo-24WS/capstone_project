@@ -32,14 +32,14 @@ public class SystemMonitor {
     }
 
     private void monitorSystemStatus() {
-        double totalConsumption = deviceManager.getTotalConsumption();
+        double totalConsumption = deviceManager.getCurrentTotalConsumption();
         double totalBatteryCharge = getTotalBatteryCharge();
 
         if (totalConsumption > totalBatteryCharge) {
-            log.warn("Power consumption warning: Usage {}W exceeds total battery charge {}",
+            log.warn("Power consumption warning: Usage {}units exceeds total battery charge {}",
                     totalConsumption, totalBatteryCharge);
             logManager.logEvent(LogManager.Category.SYSTEM, "System Monitor",
-                    String.format("POWER WARNING: Consumption %.2fW exceeds total battery charge %.2f",
+                    String.format("POWER WARNING: Consumption %.2f units exceeds total battery charge %.2f",
                             totalConsumption, totalBatteryCharge));
         }
     }
@@ -51,7 +51,7 @@ public class SystemMonitor {
     }
 
     private void logSystemData() {
-        double totalConsumption = deviceManager.getTotalConsumption();
+        double totalConsumption = deviceManager.getCurrentTotalConsumption();
         double totalBatteryCharge = getTotalBatteryCharge();
 
         logManager.logEvent(LogManager.Category.SYSTEM, "System Monitor",
