@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
 
-import static de.fhdo.util.MenuHelper.clearScreen;
 import static de.fhdo.util.MenuHelper.waitForEnter;
 
 public class ConfigMenu extends Menu {
@@ -27,7 +26,6 @@ public class ConfigMenu extends Menu {
 
     @Override
     public void show() {
-        clearScreen();
         System.out.println("=== Load Configuration File ===");
         System.out.println("Please enter the configuration file path:");
         System.out.println("(Press Enter to use the default path: " + DEFAULT_CONFIG_PATH + ")");
@@ -66,7 +64,7 @@ public class ConfigMenu extends Menu {
         }
     }
 
-    public void loadConfiguration(HouseConfig config) {
+    private void loadConfiguration(HouseConfig config) {
         System.out.println("Preparing to clear existing data...");
         System.out.println("Continue? (y/n, press Enter to confirm)");
         String answer = scanner.nextLine().trim().toLowerCase();

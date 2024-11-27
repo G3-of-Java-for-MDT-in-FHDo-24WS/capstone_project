@@ -6,8 +6,10 @@ import de.fhdo.model.Energy;
 import de.fhdo.util.LoggerHelper;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -15,7 +17,6 @@ import java.util.stream.Collectors;
 public class EnergyManager {
     private final Map<String, Battery> batteries = new ConcurrentHashMap<>();
     private final Map<String, Energy> energies = new ConcurrentHashMap<>();
-    private final Map<String, CompletableFuture<Void>> devicePowerTasks = new ConcurrentHashMap<>();
     private final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private final DeviceManager deviceManager = DeviceManager.getInstance();
@@ -47,37 +48,58 @@ public class EnergyManager {
         LoggerHelper.logBatteryEvent(logManager, "Added new battery", battery.getName());
     }
 
-    public void removeBattery(String batteryId) {
-        Battery battery = batteries.remove(batteryId);
-        if (battery != null) {
-            LoggerHelper.logBatteryEvent(logManager, "Removed battery", battery.getName());
+    public Battery getBatteryById(String batteryId) {
+        Battery battery = batteries.get(batteryId);
+
+        if (battery == null) {
+            throw new IllegalArgumentException("Battery not found: " + batteryId);
         }
+
+        return battery;
     }
 
-    public Battery getBattery(String batteryId) {
-        return batteries.get(batteryId);
+    public Energy getEnergyById(String energyId) {
+        Energy energy = energies.get(energyId);
+
+        if (energy == null) {
+            throw new IllegalArgumentException("Energy not found: " + energyId);
+        }
+
+        return energy;
     }
 
     public List<Battery> getAllBatteries() {
         return List.copyOf(batteries.values());
     }
 
-    public List<Battery> getBatteriesByState(boolean isCharging) {
-        return batteries.values().stream()
-                .filter(battery -> battery.isCharging() == isCharging)
-                .collect(Collectors.toList());
-    }
-
     public List<Energy> getAllEnergies() {
         return List.copyOf(energies.values());
     }
 
-    public Energy getEnergy(String energyId) {
-        Energy energy = energies.get(energyId);
-        if (energy == null) {
-            throw new IllegalArgumentException("Energy not found: " + energyId);
+    public void removeBatteryById(String batteryId) {
+        Battery battery = batteries.remove(batteryId);
+        if (battery != null) {
+            LoggerHelper.logBatteryEvent(logManager, "Removed battery", battery.getName());
         }
-        return energy;
+    }
+
+    public void removeEnergyById(String energyId) {
+        Energy energy = energies.remove(energyId);
+        if (energy != null) {
+            LoggerHelper.logEnergyEvent(logManager, "Removed energy", energy.getName());
+        }
+    }
+
+    public List<Battery> getBatteriesByState(boolean isCharging) {
+        return getAllBatteries().stream()
+                .filter(battery -> battery.isCharging() == isCharging)
+                .collect(Collectors.toList());
+    }
+
+    public List<Energy> getEnergiesByState(boolean isActive) {
+        return getAllEnergies().stream()
+                .filter(energy -> energy.isActive() == isActive)
+                .collect(Collectors.toList());
     }
 
     public void clearAllEnergies() {
@@ -90,44 +112,58 @@ public class EnergyManager {
         log.info("All batteries have been cleared");
     }
 
-    public void removeEnergy(String energyId) {
-        Energy energy = energies.remove(energyId);
-        if (energy != null) {
-            LoggerHelper.logEnergyEvent(logManager, "Removed energy", energy.getName());
-        }
+    public void toggleEnergyById(String energyId) {
+        Energy energy = getEnergyById(energyId);
+        energy.toggle();
+        LoggerHelper.logEnergyEvent(logManager, energy.isActive() ? "Activated energy" : "Deactivated energy", energy.getName());
     }
 
     public void startCharging(String batteryId) {
-        Battery battery = batteries.get(batteryId);
-        if (battery == null || battery.isCharging()) {
+        Battery battery = getBatteryById(batteryId);
+
+        if (battery.isCharging()) {
+            log.info("Battery {} is already charging", battery.getName());
+            return;
+        }
+
+        List<Energy> activeEnergies = getEnergiesByState(true);
+
+        if (activeEnergies.isEmpty()) {
+            log.info("No active energy sources found to charge the battery {}", battery.getName());
             return;
         }
 
         battery.setCharging(true);
-
-        List<Energy> activeEnergies = energies.values().stream()
-                .filter(Energy::isActive)
-                .collect(Collectors.toList());
-
-        if (activeEnergies.isEmpty()) {
-            battery.setCharging(false);
-            return;
-        }
-
-        CompletableFuture.runAsync(() -> manageChargingTasks(battery, activeEnergies), executorService);
+        CompletableFuture.runAsync(() -> manageChargingTasks(battery), executorService);
     }
 
-    private void manageChargingTasks(Battery battery, List<Energy> activeEnergies) {
+    private void manageChargingTasks(Battery battery) {
+        List<Energy> activeEnergies = getEnergiesByState(true);
         List<CompletableFuture<Void>> tasks = activeEnergies.stream()
                 .map(energy -> CompletableFuture.runAsync(() -> chargeFromEnergy(battery, energy), executorService))
-                .toList();
+                .collect(Collectors.toList());
 
         try {
             while (battery.isCharging()) {
+                List<Energy> newActiveEnergies = getEnergiesByState(true);
+
+                Set<Energy> removedEnergies = new HashSet<>(activeEnergies);
+                Set<Energy> addedEnergies = new HashSet<>(newActiveEnergies);
+
+                newActiveEnergies.forEach(removedEnergies::remove);
+                activeEnergies.forEach(addedEnergies::remove);
+
+                removedEnergies.forEach(energy -> tasks.stream()
+                        .filter(task -> task.isDone() && task.isCompletedExceptionally())
+                        .forEach(tasks::remove));
+
+                addedEnergies.forEach(energy -> tasks.add(CompletableFuture.runAsync(() -> chargeFromEnergy(battery, energy), executorService)));
+
                 if (tasks.stream().allMatch(CompletableFuture::isDone)) {
                     battery.setCharging(false);
                     break;
                 }
+
                 Thread.sleep(3000);
             }
         } catch (InterruptedException e) {
@@ -153,14 +189,16 @@ public class EnergyManager {
                     }
 
                     double netCharge = chargePower - deviceConsumption;
+
                     if (netCharge > 0) {
                         double chargeAmount = Math.min(netCharge, batteryDeficit);
                         battery.setCurrentCharge(battery.getCurrentCharge() + chargeAmount);
                         LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName(), chargeAmount);
-                    } else {
-                        battery.setCurrentCharge(Math.max(0, battery.getCurrentCharge() + netCharge));
-                        LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName(), netCharge);
+                        continue;
                     }
+
+                    battery.setCurrentCharge(Math.max(0, battery.getCurrentCharge() + netCharge));
+                    LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName(), netCharge);
                 }
                 Thread.sleep(3000);
             }
@@ -170,43 +208,69 @@ public class EnergyManager {
     }
 
     public void stopCharging(String batteryId) {
-        Battery battery = batteries.get(batteryId);
-        if (battery != null) {
-            battery.setCharging(false);
-        }
+        Battery battery = getBatteryById(batteryId);
+
+        battery.setCharging(false);
+        LoggerHelper.logBatteryEvent(logManager, "Stopped charging", battery.getName());
     }
 
-    public void toggleEnergy(String energyId) {
-        Energy energy = getEnergy(energyId);
-        energy.toggle();
-        LoggerHelper.logEnergyEvent(logManager, energy.isActive() ? "Activated energy" : "Deactivated energy", energy.getName());
-    }
-
-    public void powerDevice(String deviceId, String batteryId) {
-        Device device = deviceManager.getDevice(deviceId);
-        Battery battery = batteries.get(batteryId);
-
-        if (device == null) {
-            throw new IllegalArgumentException("Device not found: " + deviceId);
-        }
-
-        if (battery == null) {
-            throw new IllegalArgumentException("Battery not found: " + batteryId);
-        }
+    public void startPower(String deviceId, String batteryId) {
+        Device device = deviceManager.getDeviceById(deviceId);
+        Battery battery = getBatteryById(batteryId);
 
         if (device.isActive()) {
             log.info("Device {} is already powered on", device.getName());
             return;
         }
 
-        device.setActive(true);
-        LoggerHelper.logDevicePowerEvent(logManager, "Device powered on", device.getName(), battery.getName());
+        List<Device> activeDevices = deviceManager.getDevicesByState(true);
 
-        CompletableFuture<Void> deviceTask = CompletableFuture.runAsync(() -> manageDevicePowerTask(device, battery), executorService);
-        devicePowerTasks.put(deviceId, deviceTask);
+        if(activeDevices.isEmpty()) {
+            device.setActive(true);
+            CompletableFuture.runAsync(() -> manageDevicePowerTask(device, battery), executorService);
+        } else {
+            device.setActive(true);
+        }
     }
 
     private void manageDevicePowerTask(Device device, Battery battery) {
+        List<Device> activeDevices = deviceManager.getDevicesByState(true);
+        List<CompletableFuture> tasks = activeDevices.stream()
+                .map(activeDevice -> CompletableFuture.runAsync(() -> powerFromBattery(activeDevice, battery), executorService))
+                .collect(Collectors.toList());
+
+        try {
+            while (true) {
+                List<Device> newActiveDevices = deviceManager.getDevicesByState(true);
+
+                Set<Device> removedDevices = new HashSet<>(activeDevices);
+                Set<Device> addedDevices = new HashSet<>(newActiveDevices);
+
+                newActiveDevices.forEach(removedDevices::remove);
+                activeDevices.forEach(addedDevices::remove);
+
+                removedDevices.forEach(activeDevice -> tasks.stream()
+                        .filter(task -> task.isDone() && task.isCompletedExceptionally())
+                        .forEach(tasks::remove));
+
+                addedDevices.forEach(activeDevice -> tasks.add(CompletableFuture.runAsync(() -> powerFromBattery(activeDevice, battery), executorService)));
+
+                if (tasks.stream().allMatch(CompletableFuture::isDone)) {
+                    device.setActive(false);
+                    break;
+                }
+
+                Thread.sleep(3000);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            tasks.forEach(task -> task.cancel(true));
+            device.setActive(false);
+        }
+    }
+
+    private void powerFromBattery(Device device, Battery battery) {
         try {
             while (device.isActive()) {
                 synchronized (battery) {
@@ -221,7 +285,7 @@ public class EnergyManager {
                         break;
                     }
                 }
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -229,19 +293,11 @@ public class EnergyManager {
     }
 
     public void stopPowerDevice(String deviceId, String batteryId) {
-        Device device = deviceManager.getDevice(deviceId);
-        Battery battery = batteries.get(batteryId);
-        if (device == null) {
-            throw new IllegalArgumentException("Device not found: " + deviceId);
-        }
+        Device device = deviceManager.getDeviceById(deviceId);
+        Battery battery = getBatteryById(batteryId);
 
         device.setActive(false);
         LoggerHelper.logDevicePowerEvent(logManager, "Powered off", device.getName(), battery.getName());
-
-        CompletableFuture<Void> deviceTask = devicePowerTasks.remove(deviceId);
-        if (deviceTask != null) {
-            deviceTask.cancel(true);
-        }
     }
 
     public void shutdown() {
@@ -250,6 +306,7 @@ public class EnergyManager {
         deviceManager.getAllDevices().forEach(device -> device.setActive(false));
 
         executorService.shutdown();
+
         try {
             if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
                 executorService.shutdownNow();
@@ -258,7 +315,5 @@ public class EnergyManager {
             executorService.shutdownNow();
             Thread.currentThread().interrupt();
         }
-
-        devicePowerTasks.values().forEach(task -> task.cancel(true));
     }
 }

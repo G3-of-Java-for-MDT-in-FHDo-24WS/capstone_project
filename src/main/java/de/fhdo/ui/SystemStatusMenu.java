@@ -1,5 +1,6 @@
 package de.fhdo.ui;
 
+import de.fhdo.model.Battery;
 import de.fhdo.model.Device;
 import de.fhdo.service.DeviceManager;
 import de.fhdo.service.EnergyManager;
@@ -15,7 +16,6 @@ public class SystemStatusMenu extends Menu {
 
     @Override
     public void show() {
-        clearScreen();
         System.out.println("=== System Status ===");
 
         double totalConsumption = deviceManager.getTotalConsumption();
@@ -33,7 +33,7 @@ public class SystemStatusMenu extends Menu {
 
     private double getTotalBatteryCharge() {
         return energyManager.getAllBatteries().stream()
-                .mapToDouble(battery -> battery.getCurrentCharge())
+                .mapToDouble(Battery::getCurrentCharge)
                 .sum();
     }
 }

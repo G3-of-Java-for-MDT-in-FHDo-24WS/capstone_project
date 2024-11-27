@@ -16,7 +16,6 @@ public class BatteryMenu extends Menu {
     @Override
     public void show() {
         while (true) {
-            clearScreen();
             System.out.print("""
                     === Battery Management ===
                     1. List All Batteries
@@ -47,8 +46,6 @@ public class BatteryMenu extends Menu {
     }
 
     private void listBatteries(List<Battery> batteries) {
-        clearScreen();
-
         if (batteries.isEmpty()) {
             System.out.println("No batteries found.");
             return;
@@ -62,7 +59,6 @@ public class BatteryMenu extends Menu {
     }
 
     private void startCharging() {
-        clearScreen();
         System.out.println("=== Start Battery Charging ===");
         List<Battery> batteries = energyManager.getBatteriesByState(false);
         listBatteries(batteries);
@@ -81,7 +77,6 @@ public class BatteryMenu extends Menu {
     }
 
     private void stopCharging() {
-        clearScreen();
         System.out.println("=== Stop Battery Charging ===");
         List<Battery> batteries = energyManager.getBatteriesByState(true);
         listBatteries(batteries);
@@ -100,7 +95,6 @@ public class BatteryMenu extends Menu {
     }
 
     private void powerDeviceFromBattery() {
-        clearScreen();
         System.out.println("=== Power Device from Battery ===");
 
         List<Device> devices = deviceManager.getDevicesByState(false);
@@ -129,12 +123,11 @@ public class BatteryMenu extends Menu {
         if (batteryChoice == 0) return;
         String batteryId = batteries.get(batteryChoice - 1).getId();
 
-        energyManager.powerDevice(deviceId, batteryId);
+        energyManager.startPower(deviceId, batteryId);
         System.out.println("Device successfully powered from battery!");
     }
 
     private void stopBatterySupply() {
-        clearScreen();
         System.out.println("=== Stop Battery Power Supply ===");
 
         System.out.println("Devices powered by batteries:");

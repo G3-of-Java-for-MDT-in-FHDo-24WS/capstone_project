@@ -17,7 +17,6 @@ public class DeviceMenu extends Menu {
     @Override
     public void show() {
         while (true) {
-            clearScreen();
             System.out.print("""
                     === Device Management ===
                     1. Add New Device
@@ -45,7 +44,6 @@ public class DeviceMenu extends Menu {
 
 
     private void addDevice() {
-        clearScreen();
         System.out.println("=== Add New Device ===");
         System.out.println("Enter device name:");
 
@@ -91,7 +89,6 @@ public class DeviceMenu extends Menu {
     }
 
     private void toggleDevice() {
-        clearScreen();
         System.out.println("=== Toggle Device State ===");
 
         List<Device> devices = deviceManager.getAllDevices();

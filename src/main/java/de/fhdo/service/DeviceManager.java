@@ -45,12 +45,12 @@ public class DeviceManager {
     }
 
     public void toggleDevice(String deviceId) {
-        Device device = getDevice(deviceId);
+        Device device = getDeviceById(deviceId);
         device.toggle();
         LoggerHelper.logDeviceEvent(logManager, device.isActive() ? "Activated" : "Deactivated", device.getName());
     }
 
-    public Device getDevice(String deviceId) {
+    public Device getDeviceById(String deviceId) {
         Device device = devices.get(deviceId);
         if (device == null) {
             throw new IllegalArgumentException("Device not found: " + deviceId);

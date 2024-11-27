@@ -59,15 +59,15 @@ public class EnergyManagerTest {
     }
 
     @Test
-    void testAddAndGetEnergy() {
+    void testAddAndGetEnergyById() {
         energyManager.addEnergy(testEnergy);
-        assertEquals(testEnergy, energyManager.getEnergy(testEnergy.getId()));
+        assertEquals(testEnergy, energyManager.getEnergyById(testEnergy.getId()));
     }
 
     @Test
-    void testAddAndGetBattery() {
+    void testAddAndGetBatteryById() {
         energyManager.addBattery(testBattery);
-        assertEquals(testBattery, energyManager.getBattery(testBattery.getId()));
+        assertEquals(testBattery, energyManager.getBatteryById(testBattery.getId()));
     }
 
     @Test
@@ -87,27 +87,27 @@ public class EnergyManagerTest {
     }
 
     @Test
-    void testRemoveEnergy() {
+    void testRemoveEnergyById() {
         energyManager.addEnergy(testEnergy);
-        energyManager.removeEnergy(testEnergy.getId());
+        energyManager.removeEnergyById(testEnergy.getId());
         assertTrue(energyManager.getAllEnergies().isEmpty());
     }
 
     @Test
-    void testRemoveBattery() {
+    void testRemoveBatteryById() {
         energyManager.addBattery(testBattery);
-        energyManager.removeBattery(testBattery.getId());
+        energyManager.removeBatteryById(testBattery.getId());
         assertTrue(energyManager.getAllBatteries().isEmpty());
     }
 
     @Test
-    void testToggleEnergy() {
+    void testToggleEnergyById() {
         energyManager.addEnergy(testEnergy);
-        energyManager.toggleEnergy(testEnergy.getId());
-        assertFalse(energyManager.getEnergy(testEnergy.getId()).isActive());
+        energyManager.toggleEnergyById(testEnergy.getId());
+        assertFalse(energyManager.getEnergyById(testEnergy.getId()).isActive());
         
-        energyManager.toggleEnergy(testEnergy.getId());
-        assertTrue(energyManager.getEnergy(testEnergy.getId()).isActive());
+        energyManager.toggleEnergyById(testEnergy.getId());
+        assertTrue(energyManager.getEnergyById(testEnergy.getId()).isActive());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class EnergyManagerTest {
         energyManager.startCharging(testBattery.getId());
         TimeUnit.SECONDS.sleep(2); 
         
-        Battery battery = energyManager.getBattery(testBattery.getId());
+        Battery battery = energyManager.getBatteryById(testBattery.getId());
         assertTrue(battery.isCharging());
         assertTrue(battery.getCurrentCharge() > 500.0); 
     }
@@ -130,7 +130,7 @@ public class EnergyManagerTest {
         energyManager.addEnergy(testEnergy);
         
         energyManager.startCharging(testBattery.getId());
-        assertFalse(energyManager.getBattery(testBattery.getId()).isCharging());
+        assertFalse(energyManager.getBatteryById(testBattery.getId()).isCharging());
     }
 
     @Test
@@ -139,26 +139,26 @@ public class EnergyManagerTest {
         energyManager.addBattery(testBattery);
         
         energyManager.stopCharging(testBattery.getId());
-        assertFalse(energyManager.getBattery(testBattery.getId()).isCharging());
+        assertFalse(energyManager.getBatteryById(testBattery.getId()).isCharging());
     }
 
     @Test
-    void testPowerDevice() {
+    void testStartPower() {
         deviceManager.addDevice(testDevice);
         energyManager.addEnergy(testEnergy);
         energyManager.addBattery(testBattery);
 
-        energyManager.powerDevice(testDevice.getId(), testBattery.getId());
+        energyManager.startPower(testDevice.getId(), testBattery.getId());
         assertTrue(deviceManager.getDevicesByState(true).contains(testDevice));
     }
 
     @Test
-    void testStopPowerDevice() {
+    void testStopStartPower() {
         deviceManager.addDevice(testDevice);
         energyManager.addEnergy(testEnergy);
         energyManager.addBattery(testBattery);
 
-        energyManager.powerDevice(testDevice.getId(), testBattery.getId());
+        energyManager.startPower(testDevice.getId(), testBattery.getId());
         energyManager.stopPowerDevice(testDevice.getId(), testBattery.getId());
 
         assertFalse(deviceManager.getDevicesByState(true).contains(testDevice));
@@ -169,12 +169,12 @@ public class EnergyManagerTest {
     void testShutdown() {
         energyManager.addBattery(testBattery);
         energyManager.addEnergy(testEnergy);
-        energyManager.toggleEnergy(testEnergy.getId());
+        energyManager.toggleEnergyById(testEnergy.getId());
         
         testBattery.setCharging(true);
         energyManager.shutdown();
         
-        Battery battery = energyManager.getBattery(testBattery.getId());
+        Battery battery = energyManager.getBatteryById(testBattery.getId());
         assertFalse(battery.isCharging());
     }
 

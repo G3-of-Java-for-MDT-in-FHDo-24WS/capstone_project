@@ -17,7 +17,6 @@ public class EnergyMenu extends Menu {
     @Override
     public void show() {
         while (true) {
-            clearScreen();
             System.out.print("""
                     === Energy Management ===
                     1. Add New Energy
@@ -47,7 +46,7 @@ public class EnergyMenu extends Menu {
 
 
     private void addEnergy() {
-        clearScreen();
+        
 
         System.out.println("=== Add New Energy ===");
         System.out.println("Enter energy name: ");
@@ -74,7 +73,7 @@ public class EnergyMenu extends Menu {
     }
 
     private void listEnergy(List<Energy> energies) {
-        clearScreen();
+        
 
         if (energies.isEmpty()) {
             System.out.println("No energies found.");
@@ -103,12 +102,12 @@ public class EnergyMenu extends Menu {
         if (choice == 0) return;
         String energyId = energies.get(choice - 1).getId();
 
-        energyManager.removeEnergy(energyId);
+        energyManager.removeEnergyById(energyId);
         System.out.println("Energy removed successfully!");
     }
 
     private void toggleEnergy() {
-        clearScreen();
+        
         System.out.println("=== Toggle Energy State ===");
 
         List<Energy> energies = energyManager.getAllEnergies();
@@ -123,7 +122,7 @@ public class EnergyMenu extends Menu {
         if (choice == 0) return;
         String energyId = energies.get(choice - 1).getId();
 
-        energyManager.toggleEnergy(energyId);
+        energyManager.toggleEnergyById(energyId);
         System.out.println("Device state toggled successfully!");
     }
 }

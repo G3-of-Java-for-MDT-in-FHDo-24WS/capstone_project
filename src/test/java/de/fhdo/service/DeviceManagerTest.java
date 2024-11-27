@@ -32,9 +32,9 @@ public class DeviceManagerTest {
     }
 
     @Test
-    void testAddAndGetDevice() {
+    void testAddAndGetDeviceById() {
         deviceManager.addDevice(testDevice);
-        assertEquals(testDevice, deviceManager.getDevice(testDevice.getId()));
+        assertEquals(testDevice, deviceManager.getDeviceById(testDevice.getId()));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class DeviceManagerTest {
         
         deviceManager.addDevice(duplicateDevice);
         assertEquals(1, deviceManager.getAllDevices().size());
-        assertEquals("Duplicate Device", deviceManager.getDevice(testDevice.getId()).getName());
+        assertEquals("Duplicate Device", deviceManager.getDeviceById(testDevice.getId()).getName());
     }
 
     @Test
@@ -72,14 +72,14 @@ public class DeviceManagerTest {
     void testToggleDevice() {
         deviceManager.addDevice(testDevice);
         deviceManager.toggleDevice(testDevice.getId());
-        assertTrue(deviceManager.getDevice(testDevice.getId()).isActive());
+        assertTrue(deviceManager.getDeviceById(testDevice.getId()).isActive());
         
         deviceManager.toggleDevice(testDevice.getId());
-        assertFalse(deviceManager.getDevice(testDevice.getId()).isActive());
+        assertFalse(deviceManager.getDeviceById(testDevice.getId()).isActive());
     }
 
     @Test
-    void testGetDevicesByState() {
+    void testGetDevicesByStateById() {
         Device activeDevice = Device.builder()
                 .id("active-id")
                 .name("Active Device")
@@ -147,6 +147,6 @@ public class DeviceManagerTest {
 
     @Test
     void testGetNonExistentDevice() {
-        assertThrows(IllegalArgumentException.class, () -> deviceManager.getDevice("non-existent-id"));
+        assertThrows(IllegalArgumentException.class, () -> deviceManager.getDeviceById("non-existent-id"));
     }
 } 

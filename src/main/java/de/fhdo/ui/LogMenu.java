@@ -18,7 +18,6 @@ public class LogMenu extends Menu {
     @Override
     public void show() {
         while (true) {
-            clearScreen();
             System.out.print("""
                     === Log Management ===
                     1. Search Logs by Name

@@ -3,7 +3,6 @@ package de.fhdo.ui;
 import de.fhdo.service.EnergyManager;
 import lombok.extern.slf4j.Slf4j;
 
-import static de.fhdo.util.MenuHelper.clearScreen;
 import static de.fhdo.util.MenuHelper.getValidChoice;
 
 @Slf4j
@@ -23,7 +22,7 @@ public class MainMenu extends Menu {
     @Override
     public void show() {
         while (isRunning) {
-            clearScreen();
+            
             System.out.print("""
                     === Smart House Energy Management System ===
                     1. Manage Devices

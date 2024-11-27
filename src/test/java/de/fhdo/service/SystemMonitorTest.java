@@ -4,11 +4,9 @@ import de.fhdo.model.Device;
 import de.fhdo.model.Battery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 import java.nio.file.Paths;
 import java.time.LocalDate;
