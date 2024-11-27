@@ -1,8 +1,9 @@
 # Capstone Project
 
 ## Role Distribution and Screencast Link
-Presentation Slides: [Slides Link](https://drive.google.com/file/d/1sVd4kBAmQapmaCCGFhrBsdBB6q_75MVS/view?usp=sharing)
-Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeUHkt3IKjpVk4KmDT/view?usp=sharing)
+Presentation Slides: [Slides Link](https://drive.google.com/file/d/1sVd4kBAmQapmaCCGFhrBsdBB6q_75MVS/view?usp=sharing)<br>
+Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeUHkt3IKjpVk4KmDT/view?usp=sharing)<br>
+Demo Video: [Video Link](https://drive.google.com/file/d/1M0F4bJZ-5qFpDAswvB9_aBaH4zMsExtW/view?usp=sharing)<br>
 
 - Yanal Al Halabi, 7221683, I mainly worked on creating the smart objects model and the services files, which are called manager files for the devices, energy and logging.
   - [Screencast Link](https://drive.google.com/file/d/1Q6k94au1YqEfD3tsYtrbLQNDBReJjZyJ/view?usp=sharing)
