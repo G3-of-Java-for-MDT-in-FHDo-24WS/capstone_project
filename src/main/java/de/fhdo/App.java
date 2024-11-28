@@ -13,7 +13,7 @@ public class App {
         monitor.startMonitoring();
 
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
+            MainFrame frame = new MainFrame(monitor);
             frame.setVisible(true);
         });
     }

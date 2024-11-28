@@ -3,9 +3,12 @@ package de.fhdo.gui;
 import de.fhdo.service.DeviceManager;
 import de.fhdo.service.EnergyManager;
 import de.fhdo.service.LogManager;
+import de.fhdo.service.SystemMonitor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
     private final DeviceManager deviceManager = DeviceManager.getInstance();
@@ -21,10 +24,17 @@ public class MainFrame extends JFrame {
     private LogPanel logPanel;
     private ConfigPanel configPanel;
 
-    public MainFrame() {
+    public MainFrame(SystemMonitor systemMonitor) {
         initializeFrame();
         createComponents();
         addComponents();
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                energyManager.shutdown();
+                systemMonitor.shutdown();
+            }
+        });
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
