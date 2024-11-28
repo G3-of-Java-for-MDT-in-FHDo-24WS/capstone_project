@@ -2,7 +2,7 @@
 
 ## Role Distribution and Screencast Link
 Presentation Slides: [Slides Link](https://drive.google.com/file/d/12U6rbd_P157TLgHnLo3pZ8siwYGnPz4j/view?usp=sharing)<br>
-Demo Video: [Video Link]()<br>
+Demo Video: [Video Link](https://drive.google.com/file/d/1b8D0sjWjkbA1nF_LBY_0eC5OY48PdsbK/view?usp=sharing)<br>
 
 - Yanal Al Halabi - 7221683
   - Mainly worked on smart objects model and the services files(device, logging manager and system monitoring).
