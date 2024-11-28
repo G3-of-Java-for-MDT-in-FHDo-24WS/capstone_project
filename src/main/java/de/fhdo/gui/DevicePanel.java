@@ -148,14 +148,16 @@ public class DevicePanel extends JPanel {
     }
 
     public void updateDeviceTable() {
+        List<Device> devices = deviceManager.getAllDevices();
+
         int selectedRow = deviceTable.getSelectedRow();
         String selectDeviceId = null;
-        if(selectedRow >= 0) {
+        if(selectedRow >= 0 && selectedRow < devices.size()) {
             selectDeviceId = deviceManager.getAllDevices().get(selectedRow).getId();
         }
 
         tableModel.setRowCount(0);
-        List<Device> devices = deviceManager.getAllDevices();
+
         for (int i = 0; i < devices.size(); i++) {
             Device device = devices.get(i);
             Vector<Object> row = new Vector<>();

@@ -170,14 +170,15 @@ public class EnergyPanel extends JPanel {
     }
 
     public void updateEnergyTable() {
+        List<Energy> energies = energyManager.getAllEnergies();
+
         int selectedRow = energyTable.getSelectedRow();
         String selectEnergyId = null;
-        if(selectedRow >= 0) {
+        if(selectedRow >= 0 && selectedRow < energies.size()) {
             selectEnergyId = energyManager.getAllEnergies().get(selectedRow).getId();
         }
 
         tableModel.setRowCount(0);
-        List<Energy> energies = energyManager.getAllEnergies();
         for (int i = 0; i < energies.size(); i++) {
             Energy energy = energies.get(i);
             Vector<Object> row = new Vector<>();
