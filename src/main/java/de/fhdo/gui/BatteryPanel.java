@@ -33,7 +33,6 @@ public class BatteryPanel extends JPanel {
     }
 
     private void initializeComponents() {
-        // Initialize table
         String[] columnNames = {"Name", "Capacity", "Current Charge", "Charging Rate", "Status"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -44,13 +43,11 @@ public class BatteryPanel extends JPanel {
         batteryTable = new JTable(tableModel);
         batteryTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Initialize buttons
         startChargingButton = new JButton("Start Charging");
         stopChargingButton = new JButton("Stop Charging");
         powerDeviceButton = new JButton("Power Device");
         stopPowerButton = new JButton("Stop Power Supply");
 
-        // Add button listeners
         startChargingButton.addActionListener(e -> startCharging());
         stopChargingButton.addActionListener(e -> stopCharging());
         powerDeviceButton.addActionListener(e -> powerDevice());
@@ -58,11 +55,9 @@ public class BatteryPanel extends JPanel {
     }
 
     private void layoutComponents() {
-        // Table panel
         JScrollPane scrollPane = new JScrollPane(batteryTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startChargingButton);
         buttonPanel.add(stopChargingButton);
@@ -143,7 +138,6 @@ public class BatteryPanel extends JPanel {
             return;
         }
 
-        // Create device selection dialog
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Select Device", true);
         dialog.setLayout(new BorderLayout());
 
@@ -180,7 +174,6 @@ public class BatteryPanel extends JPanel {
             return;
         }
 
-        // Create device selection dialog
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Select Device", true);
         dialog.setLayout(new BorderLayout());
 

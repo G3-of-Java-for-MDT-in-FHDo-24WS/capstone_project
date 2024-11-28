@@ -35,7 +35,6 @@ public class LogPanel extends JPanel {
     }
 
     private void initializeComponents() {
-        // Initialize table
         String[] columnNames = {"Log File", "Category", "Date"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -48,22 +47,18 @@ public class LogPanel extends JPanel {
         logTable.getSelectionModel().addListSelectionListener(e -> showSelectedLogContent());
 
 
-        // Initialize search components
         searchField = new JTextField(20);
         resetButton = new JButton("Reset");
         searchByNameButton = new JButton("By Name");
         searchByDateButton = new JButton("By Date");
         
-        // Initialize action buttons
         archiveButton = new JButton("Archive Old Logs");
         deleteButton = new JButton("Delete Old Logs");
 
-        // Initialize log content area
         logContentArea = new JTextArea();
         logContentArea.setEditable(false);
         logContentArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
-        // Add button listeners
         resetButton.addActionListener(e -> resetSearch());
         searchByNameButton.addActionListener(e -> searchLogsByName());
         searchByDateButton.addActionListener(e -> searchLogsByDate());
@@ -72,7 +67,6 @@ public class LogPanel extends JPanel {
     }
 
     private void layoutComponents() {
-        // Search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Search:"));
         searchPanel.add(searchField);
@@ -80,23 +74,19 @@ public class LogPanel extends JPanel {
         searchPanel.add(searchByNameButton);
         searchPanel.add(searchByDateButton);
 
-        // Action panel
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         actionPanel.add(archiveButton);
         actionPanel.add(deleteButton);
 
-        // Top panel combining search and action panels
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(searchPanel, BorderLayout.WEST);
         topPanel.add(actionPanel, BorderLayout.EAST);
 
-        // Split pane for table and log content
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
                 new JScrollPane(logTable),
                 new JScrollPane(logContentArea));
         splitPane.setResizeWeight(0.5);
 
-        // Add components to main panel
         add(topPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }

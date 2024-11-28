@@ -30,7 +30,6 @@ public class EnergyPanel extends JPanel {
     }
 
     private void initializeComponents() {
-        // Initialize table
         String[] columnNames = {"Name", "Type", "Output", "Status"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -41,23 +40,19 @@ public class EnergyPanel extends JPanel {
         energyTable = new JTable(tableModel);
         energyTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Initialize buttons
         addButton = new JButton("Add Energy Source");
         removeButton = new JButton("Remove Energy Source");
         toggleButton = new JButton("Toggle Status");
 
-        // Add button listeners
         addButton.addActionListener(e -> showAddEnergyDialog());
         removeButton.addActionListener(e -> removeSelectedEnergy());
         toggleButton.addActionListener(e -> toggleSelectedEnergy());
     }
 
     private void layoutComponents() {
-        // Table panel
         JScrollPane scrollPane = new JScrollPane(energyTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
@@ -71,28 +66,25 @@ public class EnergyPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Name field
         JTextField nameField = new JTextField(20);
         gbc.gridx = 0; gbc.gridy = 0;
         dialog.add(new JLabel("Name:"), gbc);
         gbc.gridx = 1;
         dialog.add(nameField, gbc);
 
-        // Type combo box
+
         JComboBox<Energy.EnergyType> typeCombo = new JComboBox<>(Energy.EnergyType.values());
         gbc.gridx = 0; gbc.gridy = 1;
         dialog.add(new JLabel("Type:"), gbc);
         gbc.gridx = 1;
         dialog.add(typeCombo, gbc);
 
-        // Output field
         JSpinner outputSpinner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 1000.0, 0.1));
         gbc.gridx = 0; gbc.gridy = 2;
         dialog.add(new JLabel("Output:"), gbc);
         gbc.gridx = 1;
         dialog.add(outputSpinner, gbc);
 
-        // Buttons
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
         JButton cancelButton = new JButton("Cancel");

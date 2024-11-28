@@ -1,7 +1,7 @@
 # Capstone Project
 
 ## Role Distribution and Screencast Link
-Presentation Slides: [Slides Link](https://drive.google.com/file/d/12U6rbd_P157TLgHnLo3pZ8siwYGnPz4j/view?usp=sharing)<br>
+Presentation Slides: [Slides Link](https://drive.google.com/file/d/1y67VUFNy4Unc1_r294CG_8tDWhTSUKCL/view?usp=sharing)<br>
 Demo Video: [Video Link](https://drive.google.com/file/d/1b8D0sjWjkbA1nF_LBY_0eC5OY48PdsbK/view?usp=sharing)<br>
 
 - Yanal Al Halabi - 7221683

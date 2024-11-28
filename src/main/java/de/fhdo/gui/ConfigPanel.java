@@ -37,45 +37,36 @@ public class ConfigPanel extends JPanel {
     }
 
     private void initializeComponents() {
-        // Initialize path field
         configPathField = new JTextField(DEFAULT_CONFIG_PATH);
         configPathField.setEditable(false);
         
-        // Initialize buttons
         browseButton = new JButton("Browse");
         loadButton = new JButton("Load Configuration");
 
         
-        // Initialize status label
         statusLabel = new JLabel("Ready to load configuration");
         statusLabel.setForeground(Color.GRAY);
 
-        // Add button listeners
         browseButton.addActionListener(e -> browseConfigFile());
         loadButton.addActionListener(e -> loadConfiguration());
     }
 
     private void layoutComponents() {
-        // Path panel
         JPanel pathPanel = new JPanel(new BorderLayout(5, 0));
         pathPanel.setBorder(BorderFactory.createTitledBorder("Configuration File"));
         pathPanel.add(configPathField, BorderLayout.CENTER);
         pathPanel.add(browseButton, BorderLayout.EAST);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         buttonPanel.add(loadButton);
 
-        // Top panel combining path and buttons
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(pathPanel, BorderLayout.CENTER);
         topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Status panel
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         statusPanel.add(statusLabel);
 
-        // Add all components to main panel
         add(topPanel, BorderLayout.NORTH);
         add(statusPanel, BorderLayout.SOUTH);
     }
@@ -117,13 +108,11 @@ public class ConfigPanel extends JPanel {
     }
 
     private void applyConfiguration(HouseConfig config) {
-        // Clear existing data
         deviceManager.clearAllDevices();
         energyManager.clearAllEnergies();
         energyManager.clearAllBatteries();
         logManager.clearAllLogs();
 
-        // Add devices
         config.getDevices().forEach(dev -> {
             Device device = Device.builder()
                     .id(UUID.randomUUID().toString())
@@ -135,7 +124,6 @@ public class ConfigPanel extends JPanel {
             deviceManager.addDevice(device);
         });
 
-        // Add energy sources
         config.getEnergies().forEach(src -> {
             Energy energy = Energy.builder()
                     .id(UUID.randomUUID().toString())
@@ -147,7 +135,6 @@ public class ConfigPanel extends JPanel {
             energyManager.addEnergy(energy);
         });
 
-        // Add batteries
         config.getBatteries().forEach(bat -> {
             Battery battery = Battery.builder()
                     .id(UUID.randomUUID().toString())
