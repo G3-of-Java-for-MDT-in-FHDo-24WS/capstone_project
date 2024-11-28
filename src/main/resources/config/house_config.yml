@@ -16,9 +16,9 @@ energies:
   
   - name: Grid Power
     type: GRID
-    output: 4000.0
+    output: 3000.0
 
 batteries:
   - name: Main Battery
     capacity: 10000.0
-    maxChargeRate: 2000.0
+    maxChargeRate: 1000.0

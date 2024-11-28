@@ -156,11 +156,12 @@ public class EnergyManager {
 
         try {
             while (battery.isCharging()) {
-                List<Energy> newActiveEnergies = getEnergiesByState(true);
-                Set<Energy> addedEnergies = new HashSet<>(newActiveEnergies);
-
-                addedEnergies.removeAll(activeEnergies);
-                addedEnergies.forEach(energy -> tasks.add(CompletableFuture.runAsync(() -> chargeFromEnergy(battery, energy), executorService)));
+                List<Energy> currentActiveEnergies = getEnergiesByState(true);
+                
+                if(!currentActiveEnergies.isEmpty() && currentActiveEnergies.size() != activeEnergies.size()) {
+                	Energy newActiveEnergy = currentActiveEnergies.get(currentActiveEnergies.size() -1 );
+                	tasks.add(CompletableFuture.runAsync(() -> chargeFromEnergy(battery, newActiveEnergy), executorService));
+                }
 
                 if (tasks.stream().allMatch(CompletableFuture::isDone)) {
                     battery.setCharging(false);
@@ -246,18 +247,20 @@ public class EnergyManager {
 
         try {
             while (true) {
-                List<Device> newActiveDevices = deviceManager.getDevicesByState(true);
-                Set<Device> addedDevices = new HashSet<>(newActiveDevices);
-
-                activeDevices.forEach(addedDevices::remove);
-                addedDevices.forEach(activeDevice -> tasks.add(CompletableFuture.runAsync(() -> powerFromBattery(activeDevice, battery), executorService)));
+            	List<Device> currentActiveDevices = deviceManager.getDevicesByState(true);
+            	
+                
+                if(!currentActiveDevices.isEmpty() && currentActiveDevices.size() != activeDevices.size()) {
+                	Device newActiveDevice = currentActiveDevices.get(currentActiveDevices.size() -1 );
+                	tasks.add(CompletableFuture.runAsync(() -> powerFromBattery(newActiveDevice, battery), executorService));
+                }
 
                 if (tasks.stream().allMatch(CompletableFuture::isDone)) {
                     device.setActive(false);
                     break;
                 }
 
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -282,7 +285,7 @@ public class EnergyManager {
                         break;
                     }
                 }
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

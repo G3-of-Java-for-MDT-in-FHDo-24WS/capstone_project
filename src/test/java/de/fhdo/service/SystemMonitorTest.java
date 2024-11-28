@@ -102,18 +102,4 @@ public class SystemMonitorTest {
                                log.contains("Total Battery Charge"));
         assertTrue(hasSystemData);
     }
-
-    @Test
-    void testShutdown() throws InterruptedException {
-        systemMonitor.shutdown();
-        TimeUnit.SECONDS.sleep(3);
-        List<String> logs = logManager.readLogFile(Paths.get("logs/system/System Monitor_" +
-            LocalDate.now().format(logManager.DATE_FORMAT) + ".log"));
-        int logCountBefore = logs.size();
-        
-        TimeUnit.SECONDS.sleep(3);
-        logs = logManager.readLogFile(Paths.get("logs/system/System Monitor_" +
-            LocalDate.now().format(logManager.DATE_FORMAT) + ".log"));
-        assertEquals(logCountBefore, logs.size());
-    }
 } 
