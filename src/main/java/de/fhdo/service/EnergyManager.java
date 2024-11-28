@@ -157,17 +157,9 @@ public class EnergyManager {
         try {
             while (battery.isCharging()) {
                 List<Energy> newActiveEnergies = getEnergiesByState(true);
-
-                Set<Energy> removedEnergies = new HashSet<>(activeEnergies);
                 Set<Energy> addedEnergies = new HashSet<>(newActiveEnergies);
 
-                removedEnergies.removeAll(newActiveEnergies);
                 addedEnergies.removeAll(activeEnergies);
-
-                removedEnergies.forEach(energy -> tasks.stream()
-                        .filter(task -> task.isDone() && task.isCompletedExceptionally())
-                        .forEach(tasks::remove));
-
                 addedEnergies.forEach(energy -> tasks.add(CompletableFuture.runAsync(() -> chargeFromEnergy(battery, energy), executorService)));
 
                 if (tasks.stream().allMatch(CompletableFuture::isDone)) {
@@ -255,17 +247,9 @@ public class EnergyManager {
         try {
             while (true) {
                 List<Device> newActiveDevices = deviceManager.getDevicesByState(true);
-
-                Set<Device> removedDevices = new HashSet<>(activeDevices);
                 Set<Device> addedDevices = new HashSet<>(newActiveDevices);
 
-                newActiveDevices.forEach(removedDevices::remove);
                 activeDevices.forEach(addedDevices::remove);
-
-                removedDevices.forEach(activeDevice -> tasks.stream()
-                        .filter(task -> task.isDone() && task.isCompletedExceptionally())
-                        .forEach(tasks::remove));
-
                 addedDevices.forEach(activeDevice -> tasks.add(CompletableFuture.runAsync(() -> powerFromBattery(activeDevice, battery), executorService)));
 
                 if (tasks.stream().allMatch(CompletableFuture::isDone)) {

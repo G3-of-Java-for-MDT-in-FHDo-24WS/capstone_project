@@ -176,7 +176,7 @@ public class EnergyPanel extends JPanel {
         Energy energy = energyManager.getAllEnergies().get(selectedRow);
 
         List<Battery> activeBatteries = energyManager.getBatteriesByState(true);
-        if (energy.isActive() && !activeBatteries.isEmpty()) {
+        if (!activeBatteries.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Please deactivate all batteries using this energy source before toggling",
                     "Active Batteries",
