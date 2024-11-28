@@ -3,8 +3,6 @@ package de.fhdo.model;
 import lombok.Data;
 import lombok.Builder;
 
-import java.util.Objects;
-
 @Data
 @Builder
 public class Energy {

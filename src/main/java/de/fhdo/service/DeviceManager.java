@@ -33,6 +33,7 @@ public class DeviceManager {
     public void addDevice(Device device) {
         devices.put(device.getId(), device);
         LoggerHelper.logDeviceEvent(logManager, "Added new device", device.getName());
+        log.info("Device added: {}", device);
     }
 
     public void removeDevice(String deviceId) {

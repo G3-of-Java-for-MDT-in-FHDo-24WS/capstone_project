@@ -16,7 +16,6 @@ public class SystemMonitor {
     private static SystemMonitor instance;
 
     private SystemMonitor() {
-        startMonitoring();
     }
 
     public static synchronized SystemMonitor getInstance() {
@@ -26,9 +25,9 @@ public class SystemMonitor {
         return instance;
     }
 
-    private void startMonitoring() {
-        scheduler.scheduleAtFixedRate(this::monitorSystemStatus, 0, 5, TimeUnit.SECONDS);
-        scheduler.scheduleAtFixedRate(this::logSystemData, 0, 5, TimeUnit.SECONDS);
+    public void startMonitoring() {
+        scheduler.scheduleAtFixedRate(this::monitorSystemStatus, 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::logSystemData, 0, 1, TimeUnit.SECONDS);
     }
 
     private void monitorSystemStatus() {
@@ -62,7 +61,7 @@ public class SystemMonitor {
     public void shutdown() {
         scheduler.shutdown();
         try {
-            if (!scheduler.awaitTermination(60, TimeUnit.SECONDS)) {
+            if (!scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
                 scheduler.shutdownNow();
             }
         } catch (InterruptedException e) {

@@ -50,11 +50,13 @@ public class EnergyManager {
     public void addEnergy(Energy energy) {
         energies.put(energy.getId(), energy);
         LoggerHelper.logEnergyEvent(logManager, "Added new energy", energy.getName());
+        log.info("Energy added: {}", energy);
     }
 
     public void addBattery(Battery battery) {
         batteries.put(battery.getId(), battery);
         LoggerHelper.logBatteryEvent(logManager, "Added new battery", battery.getName());
+        log.info("Battery added: {}", battery);
     }
 
     public Battery getBatteryById(String batteryId) {
@@ -173,7 +175,7 @@ public class EnergyManager {
                     break;
                 }
 
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -211,7 +213,7 @@ public class EnergyManager {
                     }
                 }
 
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

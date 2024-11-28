@@ -8,9 +8,9 @@ devices:
 energies:
   - name: Solar Panels
     type: SOLAR
-    output: 3000.0
+    output: 1500.0
 
 batteries:
   - name: Main Battery
     capacity: 10000.0
-    maxChargeRate: 2000.0
+    maxChargeRate: 1000.0

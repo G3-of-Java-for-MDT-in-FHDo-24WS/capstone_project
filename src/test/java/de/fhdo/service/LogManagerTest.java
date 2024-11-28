@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LogManagerTest {
     private LogManager logManager;
-    @TempDir
-    Path tempDir;
 
     @BeforeEach
     void setUp() {

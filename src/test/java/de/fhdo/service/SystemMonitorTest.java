@@ -30,11 +30,6 @@ public class SystemMonitorTest {
         energyManager.clearAllBatteries();
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        systemMonitor.shutdown();
-//    }
-
     @Test
     void testGetInstance() {
         SystemMonitor instance1 = SystemMonitor.getInstance();

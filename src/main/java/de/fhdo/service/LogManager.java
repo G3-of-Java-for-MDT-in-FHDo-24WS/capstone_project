@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -170,5 +171,18 @@ public class LogManager {
         } catch (IOException e) {
             log.error("Failed to delete log file: {}", logFile, e);
         }
+    }
+
+    public List<Path> getAllLogFiles() {
+        List<Path> allLogs = new ArrayList<>();
+        for (Category category : Category.values()) {
+            Path categoryDir = LOG_DIR.resolve(category.getValue());
+            try {
+                allLogs.addAll(Files.list(categoryDir).collect(Collectors.toList()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return allLogs;
     }
 }

@@ -1,16 +1,20 @@
 package de.fhdo;
 
-import de.fhdo.ui.MainMenu;
+import de.fhdo.gui.MainFrame;
 import de.fhdo.service.SystemMonitor;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.swing.*;
 
 @Slf4j
 public class App {
     public static void main(String[] args) {
         SystemMonitor monitor = SystemMonitor.getInstance();
-        MainMenu mainMenu = new MainMenu();
+        monitor.startMonitoring();
 
-        mainMenu.show();
-        monitor.shutdown();
+        SwingUtilities.invokeLater(() -> {
+            MainFrame frame = new MainFrame();
+            frame.setVisible(true);
+        });
     }
 }
