@@ -1,18 +1,17 @@
 # Capstone Project
 
 ## Role Distribution and Screencast Link
-Presentation Slides: [Slides Link](https://drive.google.com/file/d/1sVd4kBAmQapmaCCGFhrBsdBB6q_75MVS/view?usp=sharing)<br>
-Team Video: [Screencast Link](https://drive.google.com/file/d/1NSZwcQ6HtzU6uqXeUHkt3IKjpVk4KmDT/view?usp=sharing)<br>
-Demo Video: [Video Link](https://drive.google.com/file/d/1M0F4bJZ-5qFpDAswvB9_aBaH4zMsExtW/view?usp=sharing)<br>
+Presentation Slides: [Slides Link](https://drive.google.com/file/d/12U6rbd_P157TLgHnLo3pZ8siwYGnPz4j/view?usp=sharing)<br>
+Demo Video: [Video Link]()<br>
 
-- Yanal Al Halabi, 7221683, I mainly worked on creating the smart objects model and the services files, which are called manager files for the devices, energy and logging.
-  - [Screencast Link](https://drive.google.com/file/d/1Q6k94au1YqEfD3tsYtrbLQNDBReJjZyJ/view?usp=sharing)
-- Franklin Viegas, 7222134, My main task was to create and perform Tests for the entire project, also I added a Smart object model namely the Energy model.
-  - [Screencast Link](https://drive.google.com/file/d/115wXQcWGFZCYy4QUzkEqCQ98IHxoWZtV/view?usp=sharing)
-- Linxin Zhang, 7221539, I worked on the design and implementation of the whole system.
-  - [Screencast Link](https://drive.google.com/file/d/16kwxJG3ZkdIB2eBgUOBLmaOFNGNnF-1C/view?usp=sharing)
-- Anjali Bodke, 7222106, I worked on Configuration of all the components and Added two helper classes LoggerHelper and MenuHelper.
-  - [Screencast Link](https://drive.google.com/file/d/1X4vLG1xCAWIMavT_QbWIu3akPxUHn4kT/view?usp=sharing)
+- Yanal Al Halabi - 7221683
+  - Mainly worked on smart objects model and the services files(device, logging manager and system monitoring).
+- Franklin Viegas - 7222134
+  - Mainly worked on Unit Tests and a Smart object model named Energy.
+- Linxin Zhang - 7221539
+  - Mainly worked on the Interactive UI, Energy and Battery Management(including Concurrency Charging and Consuming).
+- Anjali Bodke - 7222106
+  - Mainly worked on Configuration of all the components and two helper classes named LoggerHelper and MenuHelper.
 
 
 ## Functional Requirements
@@ -39,6 +38,5 @@ Demo Video: [Video Link](https://drive.google.com/file/d/1M0F4bJZ-5qFpDAswvB9_aB
   - The system can provide interactive menus for managing Devices, Batteries, Energy sources, Logs, System configuration, Overall system status
   - Each menu can validate user inputs and provide feedback.
 - Configuration Loading
-  - Users can load a new configuration file. 
+  - Users can load a new configuration file.
   - The configuration file can define devices, batteries, and energy sources with attributes like name, type, and capacity.
-
