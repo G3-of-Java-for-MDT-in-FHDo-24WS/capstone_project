@@ -8,11 +8,10 @@ devices:
 energies:
   - name: Solar Panels
     type: SOLAR
-    output: 1000.0
+    output: 1500.0
 
 
 batteries:
   - name: Main Battery
     capacity: 10000.0
-    maxChargeRate: 800.0
-    maxDischargeRate: 800.0
+    maxChargeRate: 1000.0

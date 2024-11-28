@@ -22,8 +22,8 @@ public class SystemStatusMenu extends Menu {
         double currentTotalBatteryCharge = energyManager.getCurrentTotalBatteryCharge();
         double totalBatteryCapacity = energyManager.getCurrentTotalBatteryCapacity();
 
-        System.out.printf("Current Power Consumption: %.2f%% (.2f units)\n", currentTotalConsumption / totalBatteryCapacity * 100, currentTotalConsumption);
-        System.out.printf("Current Battery Charge: %.2f%% (.2f units)\n", currentTotalBatteryCharge / totalBatteryCapacity * 100, currentTotalBatteryCharge);
+        System.out.printf("Current Power Consumption: %.2f%% (%.2f units)\n", currentTotalConsumption / totalBatteryCapacity * 100, currentTotalConsumption);
+        System.out.printf("Current Battery Charge: %.2f%% (%.2f units)\n", currentTotalBatteryCharge / totalBatteryCapacity * 100, currentTotalBatteryCharge);
 
         List<Battery> activeBatteries = energyManager.getBatteriesByState(true);
         System.out.println("\nActive Batteries:");

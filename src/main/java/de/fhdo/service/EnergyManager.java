@@ -6,10 +6,7 @@ import de.fhdo.model.Energy;
 import de.fhdo.util.LoggerHelper;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -162,8 +159,8 @@ public class EnergyManager {
                 Set<Energy> removedEnergies = new HashSet<>(activeEnergies);
                 Set<Energy> addedEnergies = new HashSet<>(newActiveEnergies);
 
-                newActiveEnergies.forEach(removedEnergies::remove);
-                activeEnergies.forEach(addedEnergies::remove);
+                removedEnergies.removeAll(newActiveEnergies);
+                addedEnergies.removeAll(activeEnergies);
 
                 removedEnergies.forEach(energy -> tasks.stream()
                         .filter(task -> task.isDone() && task.isCompletedExceptionally())
@@ -187,6 +184,8 @@ public class EnergyManager {
     }
 
     private void chargeFromEnergy(Battery battery, Energy energy) {
+        String id = UUID.randomUUID().toString();
+
         try {
             while (battery.isCharging()) {
                 synchronized (battery) {
@@ -206,12 +205,12 @@ public class EnergyManager {
                         double chargeAmount = Math.min(netCharge, batteryDeficit);
                         battery.setCurrentCharge(battery.getCurrentCharge() + chargeAmount);
                         LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName(), chargeAmount);
-                        continue;
+                    } else {
+                        battery.setCurrentCharge(Math.max(0, battery.getCurrentCharge() + netCharge));
+                        LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName() + id, netCharge);
                     }
-
-                    battery.setCurrentCharge(Math.max(0, battery.getCurrentCharge() + netCharge));
-                    LoggerHelper.logChargingEvent(logManager, battery.getName(), energy.getName(), netCharge);
                 }
+
                 Thread.sleep(3000);
             }
         } catch (InterruptedException e) {

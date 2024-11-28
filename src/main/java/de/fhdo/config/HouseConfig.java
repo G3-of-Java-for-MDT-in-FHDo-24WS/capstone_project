@@ -32,7 +32,6 @@ public class HouseConfig {
         private String name;
         private double capacity;
         private double maxChargeRate;
-        private double maxDischargeRate;
     }
     
     public static HouseConfig loadFromFile(String filename) throws IOException {

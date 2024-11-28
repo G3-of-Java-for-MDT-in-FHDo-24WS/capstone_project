@@ -34,17 +34,4 @@ public class Device {
                 
                 """, id, name, type, power, isActive ? "Active" : "Inactive");
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Device device = (Device) o;
-        return Objects.equals(id, device.id) && Objects.equals(name, device.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 } 

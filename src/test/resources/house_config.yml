@@ -14,4 +14,3 @@ batteries:
   - name: Main Battery
     capacity: 10000.0
     maxChargeRate: 2000.0
-    maxDischargeRate: 2000.0

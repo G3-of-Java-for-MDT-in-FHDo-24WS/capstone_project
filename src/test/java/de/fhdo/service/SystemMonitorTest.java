@@ -58,7 +58,6 @@ public class SystemMonitorTest {
                 .capacity(1000.0)
                 .currentCharge(100.0)
                 .maxChargeRate(100.0)
-                .maxDischargeRate(100.0)
                 .isCharging(false)
                 .build();
 
@@ -90,7 +89,6 @@ public class SystemMonitorTest {
                 .capacity(1000.0)
                 .currentCharge(500.0)
                 .maxChargeRate(100.0)
-                .maxDischargeRate(100.0)
                 .isCharging(false)
                 .build();
 

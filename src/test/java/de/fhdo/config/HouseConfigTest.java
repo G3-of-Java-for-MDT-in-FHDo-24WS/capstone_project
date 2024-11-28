@@ -32,7 +32,6 @@ public class HouseConfigTest {
         assertEquals("Main Battery", battery.getName());
         assertEquals(10000.0, battery.getCapacity());
         assertEquals(2000.0, battery.getMaxChargeRate());
-        assertEquals(2000.0, battery.getMaxDischargeRate());
     }
     
     @Test

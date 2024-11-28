@@ -90,7 +90,7 @@ public class ConfigMenu extends Menu {
         });
 
         config.getBatteries().forEach(bat -> {
-            Battery battery = Battery.builder().id(UUID.randomUUID().toString()).name(bat.getName()).capacity(bat.getCapacity()).currentCharge(0.0).maxChargeRate(bat.getMaxChargeRate()).maxDischargeRate(bat.getMaxDischargeRate()).isCharging(false).build();
+            Battery battery = Battery.builder().id(UUID.randomUUID().toString()).name(bat.getName()).capacity(bat.getCapacity()).currentCharge(0.0).maxChargeRate(bat.getMaxChargeRate()).isCharging(false).build();
             energyManager.addBattery(battery);
         });
 
