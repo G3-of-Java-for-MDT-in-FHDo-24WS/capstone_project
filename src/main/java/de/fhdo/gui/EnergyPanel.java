@@ -1,5 +1,6 @@
 package de.fhdo.gui;
 
+import de.fhdo.model.Battery;
 import de.fhdo.model.Energy;
 import de.fhdo.service.EnergyManager;
 
@@ -142,13 +143,21 @@ public class EnergyPanel extends JPanel {
             return;
         }
 
+        Energy energy = energyManager.getAllEnergies().get(selectedRow);
+        if(energy.isActive()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please deactivate the energy source before removing it",
+                    "Active Source",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to remove this energy source?",
                 "Confirm Removal",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            Energy energy = energyManager.getAllEnergies().get(selectedRow);
             energyManager.removeEnergyById(energy.getId());
             updateEnergyTable();
         }
@@ -165,6 +174,16 @@ public class EnergyPanel extends JPanel {
         }
 
         Energy energy = energyManager.getAllEnergies().get(selectedRow);
+
+        List<Battery> activeBatteries = energyManager.getBatteriesByState(true);
+        if (energy.isActive() && !activeBatteries.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please deactivate all batteries using this energy source before toggling",
+                    "Active Batteries",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         energyManager.toggleEnergyById(energy.getId());
         updateEnergyTable();
     }

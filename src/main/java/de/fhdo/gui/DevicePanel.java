@@ -135,13 +135,23 @@ public class DevicePanel extends JPanel {
             return;
         }
 
+        Device device = deviceManager.getAllDevices().get(selectedRow);
+
+        if(device.isActive()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please deactivate the device before removing it",
+                    "Device is active",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to remove this device?",
                 "Confirm Removal",
                 JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {
-            Device device = deviceManager.getAllDevices().get(selectedRow);
             deviceManager.removeDevice(device.getId());
             updateDeviceTable();
         }
