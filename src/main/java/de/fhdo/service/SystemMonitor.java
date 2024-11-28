@@ -15,6 +15,8 @@ public class SystemMonitor {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
     private static SystemMonitor instance;
 
+    private boolean isMonitoring = false;
+
     private SystemMonitor() {
     }
 
@@ -26,6 +28,14 @@ public class SystemMonitor {
     }
 
     public void startMonitoring() {
+        if (isMonitoring) {
+            log.warn("System monitor is already running");
+            return;
+        } else {
+            log.info("Starting system monitor");
+            isMonitoring = true;
+        }
+
         scheduler.scheduleAtFixedRate(this::monitorSystemStatus, 0, 1, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(this::logSystemData, 0, 1, TimeUnit.SECONDS);
     }

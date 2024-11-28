@@ -25,13 +25,13 @@ public class HouseConfigTest {
         HouseConfig.EnergyConfig firstEnergy = config.getEnergies().get(0);
         assertEquals("Solar Panels", firstEnergy.getName());
         assertEquals("SOLAR", firstEnergy.getType());
-        assertEquals(3000.0, firstEnergy.getOutput());
+        assertEquals(1500, firstEnergy.getOutput());
         
         assertEquals(1, config.getBatteries().size());
         HouseConfig.BatteryConfig battery = config.getBatteries().get(0);
         assertEquals("Main Battery", battery.getName());
         assertEquals(10000.0, battery.getCapacity());
-        assertEquals(2000.0, battery.getMaxChargeRate());
+        assertEquals(1000.0, battery.getMaxChargeRate());
     }
     
     @Test

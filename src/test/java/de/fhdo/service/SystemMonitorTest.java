@@ -2,6 +2,7 @@ package de.fhdo.service;
 
 import de.fhdo.model.Device;
 import de.fhdo.model.Battery;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +29,8 @@ public class SystemMonitorTest {
         deviceManager.clearAllDevices();
         energyManager.clearAllEnergies();
         energyManager.clearAllBatteries();
+
+        systemMonitor.startMonitoring();
     }
 
     @Test
