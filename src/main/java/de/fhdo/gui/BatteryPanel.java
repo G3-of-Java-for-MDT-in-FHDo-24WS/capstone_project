@@ -212,8 +212,7 @@ public class BatteryPanel extends JPanel {
         int selectedRow = batteryTable.getSelectedRow();
         String selectedBatteryId = null;
         if (selectedRow >= 0) {
-            Battery battery = energyManager.getAllBatteries().get(selectedRow);
-            selectedBatteryId = battery.getId();
+            selectedBatteryId = energyManager.getAllBatteries().get(selectedRow).getId();
         }
 
         tableModel.setRowCount(0);

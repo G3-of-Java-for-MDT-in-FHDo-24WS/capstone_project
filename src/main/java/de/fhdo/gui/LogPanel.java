@@ -208,8 +208,15 @@ public class LogPanel extends JPanel {
     }
 
     private void updateLogTable(List<Path> logFiles) {
+        int selectedRow = logTable.getSelectedRow();
+        Object selectedLog = null;
+        if (selectedRow >= 0) {
+            selectedLog = tableModel.getValueAt(selectedRow, 0);
+        }
+
         tableModel.setRowCount(0);
-        for (Path logFile : logFiles) {
+        for (int i = 0; i < logFiles.size(); i++) {
+            Path logFile = logFiles.get(i);
             Vector<Object> row = new Vector<>();
             row.add(logFile.getFileName());
             row.add(logFile.getParent().getFileName());
@@ -220,6 +227,10 @@ public class LogPanel extends JPanel {
 
             row.add(dateStr);
             tableModel.addRow(row);
+
+            if (selectedLog != null && logFile.getFileName().toString().equals(selectedLog.toString())) {
+                logTable.setRowSelectionInterval(i, i);
+            }
         }
     }
 

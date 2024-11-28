@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.UUID;
 import java.util.Vector;
+import java.util.List;
 
 public class EnergyPanel extends JPanel {
     private final EnergyManager energyManager;
@@ -169,14 +170,26 @@ public class EnergyPanel extends JPanel {
     }
 
     public void updateEnergyTable() {
+        int selectedRow = energyTable.getSelectedRow();
+        String selectEnergyId = null;
+        if(selectedRow >= 0) {
+            selectEnergyId = energyManager.getAllEnergies().get(selectedRow).getId();
+        }
+
         tableModel.setRowCount(0);
-        for (Energy energy : energyManager.getAllEnergies()) {
+        List<Energy> energies = energyManager.getAllEnergies();
+        for (int i = 0; i < energies.size(); i++) {
+            Energy energy = energies.get(i);
             Vector<Object> row = new Vector<>();
             row.add(energy.getName());
             row.add(energy.getType());
             row.add(energy.getOutput());
             row.add(energy.isActive() ? "Active" : "Inactive");
             tableModel.addRow(row);
+
+            if (selectEnergyId != null && energy.getId().equals(selectEnergyId)) {
+                energyTable.setRowSelectionInterval(i, i);
+            }
         }
     }
 

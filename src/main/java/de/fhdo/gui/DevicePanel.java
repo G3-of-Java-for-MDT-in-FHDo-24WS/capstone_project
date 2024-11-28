@@ -5,6 +5,7 @@ import de.fhdo.service.DeviceManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import  java.util.List;
 import java.awt.*;
 import java.util.UUID;
 import java.util.Vector;
@@ -147,14 +148,26 @@ public class DevicePanel extends JPanel {
     }
 
     public void updateDeviceTable() {
+        int selectedRow = deviceTable.getSelectedRow();
+        String selectDeviceId = null;
+        if(selectedRow >= 0) {
+            selectDeviceId = deviceManager.getAllDevices().get(selectedRow).getId();
+        }
+
         tableModel.setRowCount(0);
-        for (Device device : deviceManager.getAllDevices()) {
+        List<Device> devices = deviceManager.getAllDevices();
+        for (int i = 0; i < devices.size(); i++) {
+            Device device = devices.get(i);
             Vector<Object> row = new Vector<>();
             row.add(device.getName());
             row.add(device.getType());
             row.add(device.getPower());
             row.add(device.isActive() ? "Active" : "Inactive");
             tableModel.addRow(row);
+
+            if (selectDeviceId != null && device.getId().equals(selectDeviceId)) {
+                deviceTable.setRowSelectionInterval(i, i);
+            }
         }
     }
 
